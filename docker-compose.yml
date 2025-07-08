@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  app:
+    build: ./src
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=mypassword
+      - DB_NAME=testdb
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000"    # <-- expone el puerto 3000 para el navegador
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: testdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
